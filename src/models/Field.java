@@ -30,8 +30,10 @@ public class Field {
         int deltaGeral = deltaLine + deltaColumn;
 
         if(deltaGeral == 1 & !diagonal){
+            neighbors.add(neighbor);
             return true;
         } else if(deltaGeral == 2 & diagonal){
+            neighbors.add(neighbor);
             return true;
         } else {
             return false;
@@ -43,6 +45,10 @@ public class Field {
         if(!open){
             marked = !marked;
         }
+    }
+
+    public void mine(){
+        mined = true;
     }
 
     public boolean open(){
@@ -67,6 +73,18 @@ public class Field {
 
     public boolean safeNeighborhood(){
         return neighbors.stream().noneMatch(n -> n.mined);
+    }
+
+    public boolean isMarked(){
+        return marked;
+    }
+
+    public boolean isOpen(){
+        return open;
+    }
+
+    public boolean isClosed(){
+        return !isOpen();
     }
 
 }
