@@ -99,6 +99,12 @@ public class Field {
         return column;
     }
 
+    public boolean goalAchieved(){
+        boolean unveil = !mined && open;
+        boolean protectd = mined && marked;
+        return unveil || protectd;
+    }
+
     long neighborhoodMines(){
         return neighbors.stream().filter(n -> n.mined).count();
     }

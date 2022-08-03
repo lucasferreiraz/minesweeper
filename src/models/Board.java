@@ -21,6 +21,20 @@ public class Board {
         drawMines();
     }
 
+    public void open(int line, int column){
+        fields.parallelStream()
+                .filter(f -> f.getLine() == line && f.getColumn() == column)
+                .findFirst()
+                .ifPresent(f -> f.open());
+    }
+
+    public void switchMarking(int line, int column){
+        fields.parallelStream()
+                .filter(f -> f.getLine() == line && f.getColumn() == column)
+                .findFirst()
+                .ifPresent(f -> f.switchMarking());
+    }
+
     private void generateFields() {
         for(int line = 0; line < lines; line++){
             for(int column = 0; column < columns; column++){
@@ -38,7 +52,47 @@ public class Board {
     }
     
     private void drawMines() {
-        
+        long armedMines = 0;
+
+        do {
+            armedMines = fields.stream()
+                                .filter(f -> f.isMined())
+                                .count();
+
+            int random = (int) (Math.random() * fields.size());
+            fields.get(random).mine();
+
+        } while(armedMines < mines);
     }
+
+    public boolean goalAchieved(){
+        return fields.stream().allMatch(f -> f.goalAchieved());
+    }
+
+    public void reboot(){
+        fields.stream().forEach(f -> f.reboot());
+        drawMines();
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+
+        int i = 0;
+
+        for(int line = 0; line < lines; line++){
+            for(int column = 0; column < columns; column++){
+                sb.append(" ");
+                sb.append(fields.get(i));
+                sb.append(" ");
+                i++;
+            }
+            sb.append("\n");
+        }
+
+        return sb.toString();
+    }
+
+    
 
 }
