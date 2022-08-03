@@ -87,4 +87,37 @@ public class Field {
         return !isOpen();
     }
 
+    public int getLine() {
+        return line;
+    }
+
+    public int getColumn() {
+        return column;
+    }
+
+    long neighborhoodMines(){
+        return neighbors.stream().filter(n -> n.mined).count();
+    }
+
+    void reboot(){
+        open = false;
+        mined = false;
+        marked = false;
+    }
+
+    @Override
+    public String toString() {
+        if(marked){
+            return "x";
+        } else if (open && mined){
+            return "*";
+        } else if (open && neighborhoodMines() > 0){
+            return Long.toString(neighborhoodMines());
+        } else if (open){
+            return "o";
+        } else {
+            return "?";
+        }
+    }
+
 }
