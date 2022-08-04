@@ -3,6 +3,8 @@ package models;
 import java.util.ArrayList;
 import java.util.List;
 
+import exceptions.ExplosionException;
+
 public class Board {
     
     private int lines;
@@ -22,10 +24,16 @@ public class Board {
     }
 
     public void open(int line, int column){
-        fields.parallelStream()
+        try {
+            fields.parallelStream()
                 .filter(f -> f.getLine() == line && f.getColumn() == column)
                 .findFirst()
                 .ifPresent(f -> f.open());
+        } catch (ExplosionException e) {
+            fields.forEach(f -> f.setOpen(true));
+            throw e;
+        }
+        
     }
 
     public void switchMarking(int line, int column){
