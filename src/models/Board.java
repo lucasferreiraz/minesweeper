@@ -63,12 +63,12 @@ public class Board {
         long armedMines = 0;
 
         do {
+            
+            int random = (int) (Math.random() * fields.size());
+            fields.get(random).mine();
             armedMines = fields.stream()
                                 .filter(f -> f.isMined())
                                 .count();
-
-            int random = (int) (Math.random() * fields.size());
-            fields.get(random).mine();
 
         } while(armedMines < mines);
     }
