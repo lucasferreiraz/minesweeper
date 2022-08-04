@@ -63,7 +63,7 @@ public class Board {
         long armedMines = 0;
 
         do {
-            
+
             int random = (int) (Math.random() * fields.size());
             fields.get(random).mine();
             armedMines = fields.stream()
@@ -88,7 +88,18 @@ public class Board {
 
         int i = 0;
 
+        sb.append("  ");
+        for(int c = 0; c < columns; c++){
+            sb.append(" ");
+            sb.append(c);
+            sb.append(" ");
+        }
+
+        sb.append("\n");
+
         for(int line = 0; line < lines; line++){
+            sb.append(line);
+            sb.append(" ");
             for(int column = 0; column < columns; column++){
                 sb.append(" ");
                 sb.append(fields.get(i));
